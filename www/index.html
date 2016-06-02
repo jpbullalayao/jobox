@@ -20,6 +20,17 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyD6G_Kt8tfBVDHjfeOoS-o87Le1Qebnebs",
+        authDomain: "jobox-486a0.firebaseapp.com",
+        databaseURL: "https://jobox-486a0.firebaseio.com",
+        storageBucket: "jobox-486a0.appspot.com",
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src="js/ng-file-upload.min.js"></script>
     <script src="js/app.js"></script>
   </head>
@@ -86,11 +97,11 @@
                 <i class="ion-camera"></i>
               </div>
 
-              <div class="avatar-container" ng-model="techPhoto" ng-show="tech.photo" ngf-drop ngf-pattern="image/*">
+              <div class="avatar-container" ng-model="techPhoto" ng-show="tech.photo" ngf-drop="" ngf-pattern="image/*">
                 <img ngf-src="techPhoto" class="avatar">
               </div>
 
-              <input type="file" class="upload-photo-button" ng-model="techPhoto" ngf-select="tech.updatePhoto($file)" accept="image/*" ngf-resize="{width: 100, height: 100, centerCrop: true}" ngf-fix-orientation="true">
+              <input type="file" class="upload-photo-button" ng-model="techPhoto" ngf-select="tech.updatePhoto($file)" accept="image/*" ngf-resize="{width: 150, height: 150, centerCrop: true}" ngf-fix-orientation="true">
             </div>
             Upload a Photo
           </div>
@@ -103,7 +114,7 @@
 
           <div class="list-group">
             <label class="item item-input item-input-full">
-              <input type="text" placeholder="If you complete this job, you'll get">
+              <input type="text" placeholder="If you complete this job, you&apos;ll get">
             </label>
           </div>
         </div>

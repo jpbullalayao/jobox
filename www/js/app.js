@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngFileUpload'])
+var app = angular.module('starter', ['ionic', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,9 +21,29 @@ angular.module('starter', ['ionic', 'ngFileUpload'])
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-.controller('TechController', function() {
+app.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+
+  .state('index', {
+    url: '/',
+    templateUrl: 'index.html'
+  })
+  
+  .state('foundTechnician', {
+    url: '/found-technician',
+    templateUrl: 'found_technician.html'
+  })
+
+  .state('technicians', {
+    url: '/',
+    templateUrl: 'technicians.html'
+
+  });
+});
+
+app.controller('TechController', function() {
 
   this.photo = '';
 
