@@ -21,110 +21,36 @@
 
     <!-- your app's js -->
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyD6G_Kt8tfBVDHjfeOoS-o87Le1Qebnebs",
-        authDomain: "jobox-486a0.firebaseapp.com",
-        databaseURL: "https://jobox-486a0.firebaseio.com",
-        storageBucket: "jobox-486a0.appspot.com",
-      };
-      firebase.initializeApp(config);
-    </script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+    <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
     <script src="js/ng-file-upload.min.js"></script>
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="starter" ng-controller="TechController as tech"> 
+  <body ng-app="starter"> 
 
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <button class="button button-icon ion-ios-arrow-back"></button>
-        <h1 class="title">Add Technician</h1>
-        <button class="button button-icon ion-navicon"></button>
-      </ion-header-bar>
-      <ion-content class="content">
+    <ion-side-menus> 
 
-        <div class="list">
-          <div class="list-group">
-            <label class="item item-input item-input-half">
-              <input type="text" placeholder="First Name">
-            </label>
-    
-            <label class="item item-input item-input-half">
-              <input type="text" placeholder="Last Name">
-            </label>
-          </div>
+      <ion-nav-bar>
+        <ion-nav-buttons side="left">
+          <button class="button button-icon ion-ios-arrow-back"></button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+          <button menu-toggle="right" class="button button-icon ion-navicon"></button>
+        </ion-nav-buttons>
+      </ion-nav-bar>
 
-          <div class="list-group">
-            <label class="item item-input item-input-full">
-              <input type="text" placeholder="Phone Number">
-            </label>
-          </div>
-          
-          <div class="list-group radio-group">
-            <label class="item button-radio">
-              <input type="radio" name="phone-messages"> All
-            </label>
+      <ion-side-menu-content>
+        <ion-nav-view></ion-nav-view>
+      </ion-side-menu-content>
+      <ion-side-menu side="right">
+        <ion-content>
+          <ion-list>
+            <ion-item menu-close nav-clear href="/#/add-technician">Add Technician</ion-item>
+            <ion-item menu-close nav-clear href="/#/technicians">Technicians</ion-item> 
+          </ion-list>
+        </ion-content>
+      </ion-side-menu>
+    </ion-side-menus>
 
-            <label class="item button-radio">
-              <input type="radio" name="phone-messages"> New Jobs
-            </label>
-
-            <label class="item button-radio">
-              <input type="radio" name="phone-messages"> Closing Only
-            </label>
-          </div>
-
-          <div class="list-group">
-            <button class="button button-block button-stable button-primary">Add New Phone Number</button>
-          </div>
-
-          <div class="list-group">
-            <label class="item item-input item-input-full">
-              <input type="text" placeholder="Email Address">
-            </label>
-          </div>
-          
-          <div class="list-group">
-            <label class="item item-input item-input-full">
-              <input type="text" placeholder="Company Name">
-            </label>
-          </div>
-
-          <div class="list-group block-content">
-            <div class="photo-container">
-              <div class="camera-container" ng-hide="tech.photo">                
-                <i class="ion-camera"></i>
-              </div>
-
-              <div class="avatar-container" ng-model="techPhoto" ng-show="tech.photo" ngf-drop="" ngf-pattern="image/*">
-                <img ngf-src="techPhoto" class="avatar">
-              </div>
-
-              <input type="file" class="upload-photo-button" ng-model="techPhoto" ngf-select="tech.updatePhoto($file)" accept="image/*" ngf-resize="{width: 150, height: 150, centerCrop: true}" ngf-fix-orientation="true">
-            </div>
-            Upload a Photo
-          </div>
-
-          <div class="list-group">
-            <label class="item item-input item-input-full">
-              <input type="text" placeholder="Add fee per job">
-            </label>
-          </div>
-
-          <div class="list-group">
-            <label class="item item-input item-input-full">
-              <input type="text" placeholder="If you complete this job, you&apos;ll get">
-            </label>
-          </div>
-        </div>
-
-        <div class="button-group">
-          <button class="button button-outline button-assertive">Cancel</button>
-          <button class="button button-positive">Save</button>
-        </div>
-
-      </ion-content>
-    </ion-pane>
   </body>
 </html>

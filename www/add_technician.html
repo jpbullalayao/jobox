@@ -1,0 +1,89 @@
+<ion-view title="Add Technician" ng-controller="TechController as tech">
+  <ion-content class="content">
+
+    <form ng-submit="tech.saveTechnician(technician)"> 
+      <div class="list">
+  
+        <div class="list-group">
+          <label class="item item-input item-input-half">
+            <input type="text" placeholder="First Name" ng-model="technician.firstName">
+          </label>
+
+          <label class="item item-input item-input-half">
+            <input type="text" placeholder="Last Name" ng-model="technician.lastName">
+          </label>
+        </div>
+
+        <div class="list-group">
+          <label class="item item-input item-input-full">
+            <input type="text" placeholder="Phone Number" ng-model="technician.phone">
+          </label>
+        </div>
+        
+        <div class="list-group radio-group">
+          <label class="item button-radio">
+            <input type="radio" name="phone-messages" value="All" ng-model="technician.messageType"> All
+          </label>
+
+          <label class="item button-radio">
+            <input type="radio" name="phone-messages" value="New Jobs", ng-model="technician.messageType"> New Jobs
+          </label>
+
+          <label class="item button-radio">
+            <input type="radio" name="phone-messages" value="Closing Only", ng-model="technician.messageType"> Closing Only
+          </label>
+        </div>
+
+        <div class="list-group">
+          <button class="button button-block button-stable button-primary">Add New Phone Number</button>
+        </div>
+
+        <div class="list-group">
+          <label class="item item-input item-input-full">
+            <input type="text" placeholder="Email Address" ng-model="technician.email">
+          </label>
+        </div>
+        
+        <div class="list-group">
+          <label class="item item-input item-input-full">
+            <input type="text" placeholder="Company Name" ng-model="technician.company">
+          </label>
+        </div>
+
+        <div class="list-group block-content">
+          <div class="photo-container">
+            <div class="camera-container" ng-hide="tech.photo">                
+              <i class="ion-camera"></i>
+            </div>
+
+            <div class="avatar-container" ng-show="tech.photo" ngf-drop="" ngf-pattern="image/*">
+              <img ngf-src="technician.photo" class="avatar">
+            </div>
+
+            <input type="file" class="upload-photo-button" ng-model="technician.photo" ngf-select="tech.updatePhoto($file)" accept="image/*" ngf-resize="{width: 150, height: 150, centerCrop: true}" ngf-fix-orientation="true">
+          </div>
+          Upload a Photo
+        </div>
+
+        <div class="list-group">
+          <label class="item item-input item-input-full">
+            <input type="text" placeholder="Add fee per job" ng-model="technician.fee">
+          </label>
+        </div>
+
+        <div class="list-group">
+          <label class="item item-input item-input-full">
+            <input type="text" placeholder="If you complete this job, you&apos;ll get" ng-model="technician.percentCut">
+          </label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="button button-outline button-assertive">Cancel</button>
+        <button class="button button-positive">Save</button>
+      </div>
+
+    </form> 
+
+  </ion-content>
+</ion-view>

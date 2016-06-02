@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic', 'ngFileUpload'])
+var app = angular.module('starter', ['ionic', 'firebase', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -31,26 +31,45 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'index.html'
   })
   
+  .state('addTechnician', {
+    url: '/add-technician',
+    templateUrl: 'add_technician.html'
+  })
+
   .state('foundTechnician', {
     url: '/found-technician',
     templateUrl: 'found_technician.html'
   })
 
   .state('technicians', {
-    url: '/',
+    url: '/technicians',
     templateUrl: 'technicians.html'
 
   });
+
+  $urlRouterProvider.otherwise('/add-technician')
 });
 
+// app.controller('TechController', function($scope, Technicians) {
 app.controller('TechController', function() {
 
+  // $scope.technicians = Technicians;
+  this.technician = {};
   this.photo = '';
+  this.userAuthenticated = false;
 
   this.updatePhoto = function(photo) {
     this.photo = photo;
   };
 
+  this.saveTechnician = function(technician) {
+    // Save Technician in Firebase
+    // $scope.technicians.$add(technician);
+  };
+
 });
 
-
+app.factory('Technicians', function($firebaseArray) {
+  var techniciansRef = new Firebase('https://jobox-486a0.firebaseio.com/technicians');
+  return $firebaseArray(techniciansRef);
+});
