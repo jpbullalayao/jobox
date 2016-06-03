@@ -50,13 +50,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/add-technician')
 });
 
-// app.controller('TechController', function($scope, Technicians) {
-app.controller('TechController', function() {
+app.factory('Technicians', function($firebaseArray) {
+  var techniciansRef = new Firebase('https://jobox-486a0.firebaseio.com/technicians');
+  return $firebaseArray(techniciansRef);
+});
 
-  // $scope.technicians = Technicians;
-  this.technician = {};
+// Controller Declarations
+var TechController = function($scope, Technicians) {
+
+  $scope.technicians = Technicians;
   this.photo = '';
-  this.userAuthenticated = false;
 
   this.updatePhoto = function(photo) {
     this.photo = photo;
@@ -64,12 +67,14 @@ app.controller('TechController', function() {
 
   this.saveTechnician = function(technician) {
     // Save Technician in Firebase
-    // $scope.technicians.$add(technician);
+    $scope.technicians.$add(technician);
   };
+};
 
-});
+// Injections
+TechController.$inject = ['$scope', 'Technicians'];
 
-app.factory('Technicians', function($firebaseArray) {
-  var techniciansRef = new Firebase('https://jobox-486a0.firebaseio.com/technicians');
-  return $firebaseArray(techniciansRef);
-});
+// Controllers 
+app.controller('TechController', TechController);
+
+
