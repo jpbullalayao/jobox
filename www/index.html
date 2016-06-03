@@ -20,7 +20,17 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
-    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <!-- <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.0.2/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyD6G_Kt8tfBVDHjfeOoS-o87Le1Qebnebs",
+        authDomain: "jobox-486a0.firebaseapp.com",
+        databaseURL: "https://jobox-486a0.firebaseio.com",
+        storageBucket: "jobox-486a0.appspot.com",
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
     <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
     <script src="js/ng-file-upload.min.js"></script>

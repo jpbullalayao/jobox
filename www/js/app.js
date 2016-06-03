@@ -3,7 +3,12 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic', 'firebase', 'ngFileUpload'])
+
+var database = firebase.database();
+var storage = firebase.storage();
+var storageRef = storage.ref();
+
+var app = angular.module('starter', ['ionic', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -50,16 +55,39 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/add-technician')
 });
 
-app.factory('Technicians', function($firebaseArray) {
-  var techniciansRef = new Firebase('https://jobox-486a0.firebaseio.com/technicians');
-  return $firebaseArray(techniciansRef);
-});
-
 // Controller Declarations
-var TechController = function($scope, Technicians) {
+var TechController = function($scope) {
 
-  $scope.technicians = Technicians;
   this.photo = '';
+  this.techniciansRef = database.ref('technicians');
+  this.techniciansSnapshot = {};
+  this.userAuthenticated = true;
+  // this.techniciansArray = [];
+
+  $scope.techniciansArray = [];
+
+  // this.photo = '';
+  // this.techniciansRef = database.ref('technicians');
+  // this.techniciansSnapshot = {};
+  // this.techniciansArray = [];
+
+  this.techniciansRef.once('value').then(function(snapshot) {
+    this.techniciansSnapshot = snapshot;
+
+    snapshot.forEach(function(childSnapshot) {
+      $scope.techniciansArray.push(childSnapshot.val());
+    });
+  });
+
+  // this.techniciansSnapshot.forEach(function(childSnapshot) {
+  //   this.techniciansArray.push(childSnapshot.val());
+  // });
+
+  // database.ref('technicians').once('value').then(function(snapshot) {
+  //   snapshot.forEach(function(childSnapshot) {
+  //     technicians.push(childSnapshot.val());
+  //   });
+  // });
 
   this.updatePhoto = function(photo) {
     this.photo = photo;
@@ -67,14 +95,15 @@ var TechController = function($scope, Technicians) {
 
   this.saveTechnician = function(technician) {
     // Save Technician in Firebase
-    $scope.technicians.$add(technician);
+    var photo = technician.photo
+    technician.photo = null;
+    var newTechnician = database.ref('/technicians').push(technician);
+    var photoRef = storageRef.child(photo.$ngfName);
+    var uploadTask = storageRef.child('images/' + newTechnician.path.o[1]).put(photo);
   };
 };
 
-// Injections
-TechController.$inject = ['$scope', 'Technicians'];
+TechController.$inject = ['$scope'];
 
 // Controllers 
 app.controller('TechController', TechController);
-
-
