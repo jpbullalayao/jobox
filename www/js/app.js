@@ -102,18 +102,15 @@ var TechController = function($scope, $state, $stateParams) {
 
       snapshot.forEach(function(childSnapshot) {
         $scope.foundTechnician = childSnapshot.val();
-        // this.foundTechnician.photo = storage.ref('images/' + childSnapshot.key).getDownloadURL();
         storage.ref('images/' + childSnapshot.key).getDownloadURL().then(function(url) {
-          $scope.foundTechnician.photo = url;
-          // storage.ref('images/' + childSnapshot.key).getMetadata().then(function(metadata) {
-          // $scope.foundTechnician.photo = metadata.downloadURLs[0];
+          $scope.foundTechnician.photo = url; 
+        });
 
-          if ($scope.foundTechnician) {
+        if ($scope.foundTechnician) {
             $state.go('foundTechnician', { 
               technician: $scope.foundTechnician
             });
           };
-        });
       });
     });
   };
