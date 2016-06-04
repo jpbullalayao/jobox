@@ -72,7 +72,7 @@ var TechController = function($scope, $state, $stateParams) {
   this.techniciansRef = database.ref('technicians');
   this.techniciansSnapshot = {};
   this.userAuthenticated = true;
-  this.foundTechnician = $stateParams.technician;
+  $scope.foundTechnician = $stateParams.technician;
 
   $scope.techniciansArray = [];
 
@@ -101,14 +101,20 @@ var TechController = function($scope, $state, $stateParams) {
     this.techniciansRef.orderByChild('phone').equalTo(technician.phone).once('value').then(function(snapshot) {
 
       snapshot.forEach(function(childSnapshot) {
-        this.foundTechnician = childSnapshot.val();
-      });
+        $scope.foundTechnician = childSnapshot.val();
+        // this.foundTechnician.photo = storage.ref('images/' + childSnapshot.key).getDownloadURL();
+        storage.ref('images/' + childSnapshot.key).getDownloadURL().then(function(url) {
+          $scope.foundTechnician.photo = url;
+          // storage.ref('images/' + childSnapshot.key).getMetadata().then(function(metadata) {
+          // $scope.foundTechnician.photo = metadata.downloadURLs[0];
 
-      if (this.foundTechnician) {
-        $state.go('foundTechnician', { 
-          technician: this.foundTechnician
+          if ($scope.foundTechnician) {
+            $state.go('foundTechnician', { 
+              technician: $scope.foundTechnician
+            });
+          };
         });
-      };
+      });
     });
   };
 };
