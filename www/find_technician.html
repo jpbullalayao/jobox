@@ -1,0 +1,20 @@
+<ion-view title='Find Technician' ng-controller="TechController as tech">
+  <ion-content class="content">
+  	<div class="block-content">
+	  	Input a number to see if your technician is in the JOBOX database! 
+	  	<form ng-submit="tech.findTechnician(technician)">
+	  		<div class="list">
+		        <div class="list-group">
+		          <label class="item item-input item-input-full">
+		            <input type="text" placeholder="Phone Number" ng-model="technician.phone">
+		          </label>
+		        </div>
+	  		</div>
+	  		<div class="button-group">
+		  		<button class="button button-positive">Find</button>
+	  		</div>
+	  	</form>
+  	</div>
+
+  </ion-content>
+ </ion-view>

@@ -14,12 +14,26 @@
 			</div>
 		</div>
 
-		<!-- <ion-list ng-show="tech.userAuthenticated"> -->
-		<ion-list>
+		<ion-list ng-show="tech.userAuthenticated">
+		<!-- {{techniciansArray}} -->
 			<ion-item ng-repeat="technician in techniciansArray">
-				{{technician.first_name}}
+				Name: {{technician.firstName}} {{technician.lastName}}
+				<br>
+				Phone: {{technician.phone}}
+				<br>
+				Message Type: {{technician.messageType}}
+				<br>
+				Email: {{technician.email}}
+				<br>
+				Company: {{technician.company}}
+				<br>
+				Fee Per Job: {{technician.fee}}
+				<br>
+				You'll Receive: {{technician.percentCut}}
+				<br>
+				<br>
+				<br>
 			</ion-item>
 		</ion-list>
-
 	</ion-content>
 </ion-view>

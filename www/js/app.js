@@ -43,33 +43,38 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('foundTechnician', {
     url: '/found-technician',
-    templateUrl: 'found_technician.html'
+    templateUrl: 'found_technician.html',
+    params: {
+      technician: null
+    }
   })
 
   .state('technicians', {
     url: '/technicians',
     templateUrl: 'technicians.html'
 
+  })
+
+  .state('findTechnician', {
+    url: '/find-technician',
+    templateUrl: 'find_technician.html'
   });
 
   $urlRouterProvider.otherwise('/add-technician')
 });
 
 // Controller Declarations
-var TechController = function($scope) {
+var TechController = function($scope, $state, $stateParams) {
+
+  console.log($stateParams);
 
   this.photo = '';
   this.techniciansRef = database.ref('technicians');
   this.techniciansSnapshot = {};
   this.userAuthenticated = true;
-  // this.techniciansArray = [];
+  this.foundTechnician = $stateParams.technician;
 
   $scope.techniciansArray = [];
-
-  // this.photo = '';
-  // this.techniciansRef = database.ref('technicians');
-  // this.techniciansSnapshot = {};
-  // this.techniciansArray = [];
 
   this.techniciansRef.once('value').then(function(snapshot) {
     this.techniciansSnapshot = snapshot;
@@ -78,16 +83,6 @@ var TechController = function($scope) {
       $scope.techniciansArray.push(childSnapshot.val());
     });
   });
-
-  // this.techniciansSnapshot.forEach(function(childSnapshot) {
-  //   this.techniciansArray.push(childSnapshot.val());
-  // });
-
-  // database.ref('technicians').once('value').then(function(snapshot) {
-  //   snapshot.forEach(function(childSnapshot) {
-  //     technicians.push(childSnapshot.val());
-  //   });
-  // });
 
   this.updatePhoto = function(photo) {
     this.photo = photo;
@@ -101,9 +96,24 @@ var TechController = function($scope) {
     var photoRef = storageRef.child(photo.$ngfName);
     var uploadTask = storageRef.child('images/' + newTechnician.path.o[1]).put(photo);
   };
+
+  this.findTechnician = function(technician) {
+    this.techniciansRef.orderByChild('phone').equalTo(technician.phone).once('value').then(function(snapshot) {
+
+      snapshot.forEach(function(childSnapshot) {
+        this.foundTechnician = childSnapshot.val();
+      });
+
+      if (this.foundTechnician) {
+        $state.go('foundTechnician', { 
+          technician: this.foundTechnician
+        });
+      };
+    });
+  };
 };
 
-TechController.$inject = ['$scope'];
+TechController.$inject = ['$scope', '$state', '$stateParams'];
 
 // Controllers 
 app.controller('TechController', TechController);
