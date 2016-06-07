@@ -11,21 +11,24 @@
 				<div class="button-group">
 		        	<button class="button button-positive">Send</button>
 		      	</div>
-
+		    </form>
+		    <form ng-submit=twilio.verifySMS(twilio.accessCode)>
 				<div class="list-group">
 					<label class="item item-input item-input-full">
-			          <input type="text" placeholder="Access Code">
+			          <input type="text" placeholder="Access Code" ng-model=twilio.accessCode>
 			        </label>
 				</div>
 
 				<div class="button-group">
 		        	<button class="button button-positive">Get Access</button>
 		      	</div>
+		    </form>
+
 
 			</form>
 		</div>
 
-		<ion-list ng-show="tech.userAuthenticated">
+		<ion-list ng-show="twilio.userAuthenticated">
 			<ion-item ng-repeat="technician in techniciansArray">
 				Name: {{technician.firstName}} {{technician.lastName}}
 				<br>

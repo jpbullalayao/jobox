@@ -128,20 +128,24 @@ var TechController = function($scope, $state, $stateParams) {
 var TwilioController = function(Twilio, TwilioVerification) {
 
   this.phone = '';
+  this.userAuthenticated = false;
 
   this.sendSMS = function(phone) {
-    Twilio.create('Messages', {
-        From: '+14082148498',
-        To: '+1' + phone,
-        Body: 'Test'
+    TwilioVerification.sendCode('+1' + phone)
+    .then(function () {
+
+    }, function (response) {
+
     })
-    .success(function (data, status, headers, config) {
-      console.log('yo');
-    })
-    .error(function (data, status, headers, config) {
-      console.log('hello');
-    });
-      // return $http({ method:'post', url: twilio_url, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization' : 'Basic ' + $window.btoa('xxxxxxx:xxxxxxxxx')}, transformRequest: function(obj) { var str = []; for(var p in obj) str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p])); return str.join("&"); }, data: {From:'YOUFROMNUMBER',To:phoneNumber,Body:message} }).success(function(resp){  });
+  };
+
+  this.verifySMS = function (verificationCode) {
+    var verified = TwilioVerification.verifyCode(verificationCode);
+    if (verified) {
+      this.userAuthenticated = true
+    } else {
+
+    }
   };
 
 };
