@@ -8,7 +8,8 @@ var database = firebase.database();
 var storage = firebase.storage();
 var storageRef = storage.ref();
 
-var app = angular.module('starter', ['ionic', 'ngFileUpload'])
+var app = angular.module('starter', ['ionic', 'ngFileUpload', 'mcwebb.twilio', 'mcwebb.twilio-verification'])
+// var app = angular.module('starter', ['ionic', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -28,7 +29,7 @@ var app = angular.module('starter', ['ionic', 'ngFileUpload'])
   });
 });
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, TwilioProvider, TwilioVerificationProvider) {
   $stateProvider
 
   .state('index', {
@@ -61,6 +62,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
 
   $urlRouterProvider.otherwise('/add-technician')
+
+  TwilioProvider.setCredentials({
+    accountSid: 'ACaaba55352eb370d9184a459468e1246e',
+    authToken: '02d0b2a4f8c33fa54c71b2a33ee6ebd9'
+  });
+
+  TwilioVerificationProvider.setFromNumber('+14082148498');
 });
 
 // Controller Declarations
@@ -116,7 +124,30 @@ var TechController = function($scope, $state, $stateParams) {
   };
 };
 
+
+var TwilioController = function(Twilio, TwilioVerification) {
+
+  this.phone = '';
+
+  this.sendSMS = function(phone) {
+    Twilio.create('Messages', {
+        From: '+14082148498',
+        To: '+1' + phone,
+        Body: 'Test'
+    })
+    .success(function (data, status, headers, config) {
+      console.log('yo');
+    })
+    .error(function (data, status, headers, config) {
+      console.log('hello');
+    });
+      // return $http({ method:'post', url: twilio_url, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization' : 'Basic ' + $window.btoa('xxxxxxx:xxxxxxxxx')}, transformRequest: function(obj) { var str = []; for(var p in obj) str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p])); return str.join("&"); }, data: {From:'YOUFROMNUMBER',To:phoneNumber,Body:message} }).success(function(resp){  });
+  };
+
+};
+
 TechController.$inject = ['$scope', '$state', '$stateParams'];
 
 // Controllers 
 app.controller('TechController', TechController);
+app.controller('TwilioController', TwilioController);
