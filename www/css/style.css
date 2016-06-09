@@ -1,5 +1,3 @@
-/* Empty. Add your own CSS if you like */
-
 .content {
 	padding: 1em;
 }
@@ -133,4 +131,8 @@
 	font-weight: bold;
 	line-height: 1.5em;
 	text-align: center;
+}
+
+.technician-details-container {
+	margin-bottom: 1em;
 }

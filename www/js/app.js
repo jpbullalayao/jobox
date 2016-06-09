@@ -1,15 +1,9 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-
+// Pointers to Firebase
 var database = firebase.database();
 var storage = firebase.storage();
 var storageRef = storage.ref();
 
 var app = angular.module('starter', ['ionic', 'ngFileUpload', 'mcwebb.twilio', 'mcwebb.twilio-verification'])
-// var app = angular.module('starter', ['ionic', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -29,7 +23,9 @@ var app = angular.module('starter', ['ionic', 'ngFileUpload', 'mcwebb.twilio', '
   });
 });
 
+// App Configuration
 app.config(function($stateProvider, $urlRouterProvider, TwilioProvider, TwilioVerificationProvider) {
+  
   $stateProvider
 
   .state('index', {
@@ -71,10 +67,17 @@ app.config(function($stateProvider, $urlRouterProvider, TwilioProvider, TwilioVe
   TwilioVerificationProvider.setFromNumber('+14082148498');
 });
 
-// Controller Declarations
-var TechController = function($scope, $state, $stateParams) {
 
-  console.log($stateParams);
+/**
+ * TechController
+ *
+ * Object that contains all the functionality related to technicians.
+ *
+ * @param $scope
+ * @param $state
+ * @param $stateParams
+ */
+var TechController = function($scope, $state, $stateParams) {
 
   this.photo = '';
   this.techniciansRef = database.ref('technicians');
@@ -92,10 +95,24 @@ var TechController = function($scope, $state, $stateParams) {
     });
   });
 
+  /**
+   * updatePhoto()
+   *
+   * Update front-end of photo container to show the photo that user uploaded when adding a technician.
+   *
+   * @param photo
+   */
   this.updatePhoto = function(photo) {
     this.photo = photo;
   };
 
+  /**
+   * saveTechnician()
+   *   
+   * Save technician information into Firebase 'technicians' table
+   *
+   * @param technician
+   */
   this.saveTechnician = function(technician) {
     // Save Technician in Firebase
     var photo = technician.photo
@@ -105,6 +122,14 @@ var TechController = function($scope, $state, $stateParams) {
     var uploadTask = storageRef.child('images/' + newTechnician.path.o[1]).put(photo);
   };
 
+  /**
+   * findTechnician()
+   *
+   * Looks through snapshot of Firebase table 'technicians' to see if a technician already exists with the
+   * specified number. If technician exists, get that technician's information.
+   *
+   * @param technician
+   */
   this.findTechnician = function(technician) {
     this.techniciansRef.orderByChild('phone').equalTo(technician.phone).once('value').then(function(snapshot) {
 
@@ -115,30 +140,50 @@ var TechController = function($scope, $state, $stateParams) {
         });
 
         if ($scope.foundTechnician) {
-            $state.go('foundTechnician', { 
-              technician: $scope.foundTechnician
-            });
-          };
+          $state.go('foundTechnician', { 
+            technician: $scope.foundTechnician
+          });
+        };
       });
     });
   };
 };
 
-
+/**
+ * TwilioController
+ *
+ * Object that contains all functionality related to Twilio.
+ *
+ * @param Twilio
+ * @param TwilioVerification
+ */
 var TwilioController = function(Twilio, TwilioVerification) {
-
   this.phone = '';
   this.userAuthenticated = false;
 
+  /**
+   * sendSMS()
+   *
+   * Sends a verification code to the specified phone number.
+   *
+   * @param phone 
+   */
   this.sendSMS = function(phone) {
     TwilioVerification.sendCode('+1' + phone)
     .then(function () {
-
+    
     }, function (response) {
 
     })
   };
 
+  /**
+   * verifySMS()
+   * 
+   * Takes the specified verification code and verifies user if it is correct.
+   *
+   * @param verificationCode
+   */
   this.verifySMS = function (verificationCode) {
     var verified = TwilioVerification.verifyCode(verificationCode);
     if (verified) {
@@ -147,9 +192,9 @@ var TwilioController = function(Twilio, TwilioVerification) {
 
     }
   };
-
 };
 
+// Controller Injections
 TechController.$inject = ['$scope', '$state', '$stateParams'];
 
 // Controllers 

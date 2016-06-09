@@ -4,48 +4,47 @@
 			<form ng-submit="twilio.sendSMS(twilio.phone)">
 				<div class="list-group">
 					<label class="item item-input item-input-full">
-			          <input type="text" placeholder="Phone Number (ex: 4086070410)" ng-model="twilio.phone">
-			        </label>
+	          <input type="text" placeholder="Phone Number (ex: 4086070410)" ng-model="twilio.phone">
+	        </label>
 				</div>
 
 				<div class="button-group">
-		        	<button class="button button-positive">Send</button>
-		      	</div>
-		    </form>
-		    <form ng-submit=twilio.verifySMS(twilio.accessCode)>
+        	<button class="button button-positive">Send</button>
+      	</div>
+	    </form>
+
+	    <form ng-submit=twilio.verifySMS(twilio.accessCode)>
 				<div class="list-group">
 					<label class="item item-input item-input-full">
-			          <input type="text" placeholder="Access Code" ng-model=twilio.accessCode>
-			        </label>
+	          <input type="text" placeholder="Access Code" ng-model=twilio.accessCode>
+	        </label>
 				</div>
 
 				<div class="button-group">
-		        	<button class="button button-positive">Get Access</button>
-		      	</div>
-		    </form>
-
-
-			</form>
+	      	<button class="button button-positive">Get Access</button>
+	    	</div>
+	    </form>
 		</div>
 
 		<ion-list ng-show="twilio.userAuthenticated">
-			<ion-item ng-repeat="technician in techniciansArray">
-				Name: {{technician.firstName}} {{technician.lastName}}
-				<br>
-				Phone: {{technician.phone}}
-				<br>
-				Message Type: {{technician.messageType}}
-				<br>
-				Email: {{technician.email}}
-				<br>
-				Company: {{technician.company}}
-				<br>
-				Fee Per Job: {{technician.fee}}
-				<br>
-				You'll Receive: {{technician.percentCut}}
-				<br>
-				<br>
-				<br>
+			<ion-item ng-repeat="technician in techniciansArray" class="technician-details-container">
+				<div class="technician-detail">
+					Name: {{technician.firstName}} {{technician.lastName}}
+				</div>
+				<div class="technician-detail">
+					Phone: {{technician.phone}}
+				<div>
+				<div class="technician-detail">
+					Message Type: {{technician.messageType}}
+				<div class="technician-detail">
+					Email: {{technician.email}}
+				<div class="technician-detail">
+					Company: {{technician.company}}
+				<div class="technician-detail">
+					Fee Per Job: {{technician.fee}}
+				<div class="technician-detail">	
+					You'll Receive: {{technician.percentCut}}				
+				</div>
 			</ion-item>
 		</ion-list>
 	</ion-content>
